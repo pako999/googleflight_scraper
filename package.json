@@ -1,21 +1,16 @@
 {
-  "name": "googleflight-scraper",
+  "name": "flight-search-portal",
   "version": "1.0.0",
-  "description": "Google Flights scraper using Playwright-core and Browserless.io",
-  "main": "src/index.js",
+  "description": "Flight search portal with comparison site integration",
   "scripts": {
-    "start": "node src/index.js",
-    "scrape": "node src/scraper.js"
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build needed'"
   },
-  "keywords": ["google-flights", "scraper", "playwright", "browserless"],
+  "keywords": [
+    "flights",
+    "search",
+    "travel"
+  ],
   "author": "",
-  "license": "MIT",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "dependencies": {
-    "playwright-core": "^1.40.0",
-    "express": "^4.18.2",
-    "dotenv": "^16.3.1"
-  }
+  "license": "MIT"
 }

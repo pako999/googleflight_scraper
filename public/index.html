@@ -1,133 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flight Search - Find & Compare the Best Flight Deals</title>
-    <meta name="description" content="Search and compare flight prices from Google Flights, Kayak, and Skyscanner. Find the cheapest flights with direct booking links.">
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Flight Search - Compare Prices Instantly</title>
+    <meta name="description"
+        content="Search and compare flight prices from Google Flights, Kayak, Skyscanner, and more. Find the best deals in one place.">
+    <link rel="stylesheet" href="css/portal.css">
 </head>
+
 <body>
     <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="logo">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                    <path d="M16 2L28 16L16 30L4 16L16 2Z" fill="url(#gradient)" stroke="white" stroke-width="2"/>
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <path d="M20 4L34 20L20 36L6 20L20 4Z" fill="url(#gradient)" stroke="white" stroke-width="2" />
                     <defs>
                         <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#f687b3;stop-opacity:1" />
+                            <stop offset="0%" style="stop-color:#667eea" />
+                            <stop offset="100%" style="stop-color:#f687b3" />
                         </linearGradient>
                     </defs>
                 </svg>
                 <h1>FlightFinder</h1>
             </div>
-            <p class="tagline">Compare flights from multiple sources, book direct</p>
+            <p class="tagline">Compare flights from top travel sites</p>
         </div>
     </header>
 
-    <!-- Search Section -->
-    <section class="search-section">
+    <!-- Hero Section -->
+    <section class="hero">
         <div class="container">
-            <div class="search-card">
-                <h2>Find Your Perfect Flight</h2>
+            <h2>Find Your Perfect Flight</h2>
+            <p class="hero-subtitle">Search across Google Flights, Kayak, Skyscanner & more</p>
+
+            <!-- Search Form -->
+            <div class="search-box">
                 <form id="searchForm" class="search-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="origin">From</label>
-                            <input type="text" id="origin" name="origin" placeholder="e.g. NYC, New York, JFK" required>
+                    <div class="input-group">
+                        <div class="input-field">
+                            <label>From</label>
+                            <input type="text" id="origin" placeholder="NYC, New York" required>
                         </div>
-                        <div class="form-group">
-                            <label for="destination">To</label>
-                            <input type="text" id="destination" name="destination" placeholder="e.g. LON, London, LHR" required>
+                        <div class="input-field">
+                            <label>To</label>
+                            <input type="text" id="destination" placeholder="LON, London" required>
                         </div>
-                        <div class="form-group">
-                            <label for="date">Departure Date</label>
-                            <input type="date" id="date" name="date" required>
-                        </div>
-                    </div>
-
-                    <div class="advanced-filters">
-                        <button type="button" class="filter-toggle" id="filterToggle">
-                            <span>Advanced Filters</span>
-                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
-                            </svg>
-                        </button>
-                        
-                        <div id="filtersPanel" class="filters-panel" style="display: none;">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="maxStops">Max Stops</label>
-                                    <select id="maxStops" name="maxStops">
-                                        <option value="">Any</option>
-                                        <option value="0">Non-stop only</option>
-                                        <option value="1">1 stop max</option>
-                                        <option value="2">2 stops max</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="maxPrice">Max Price ($)</label>
-                                    <input type="number" id="maxPrice" name="maxPrice" placeholder="e.g. 500">
-                                </div>
-                                <div class="form-group">
-                                    <label for="sources">Search Sources</label>
-                                    <select id="sources" name="sources">
-                                        <option value="google">Google Flights Only</option>
-                                        <option value="google,kayak">Google + Kayak</option>
-                                        <option value="google,skyscanner">Google + Skyscanner</option>
-                                        <option value="google,kayak,skyscanner" selected>All Sources</option>
-                                    </select>
-                                </div>
-                            </div>
+                        <div class="input-field">
+                            <label>Date</label>
+                            <input type="date" id="date" required>
                         </div>
                     </div>
-
-                    <button type="submit" class="btn-primary" id="searchBtn">
+                    <button type="submit" class="btn-search">
                         <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
                         </svg>
-                        Search Flights
+                        Search All Sites
                     </button>
                 </form>
             </div>
         </div>
     </section>
 
-    <!-- Results Section -->
+    <!-- Comparison Sites Section -->
     <section id="resultsSection" class="results-section" style="display: none;">
         <div class="container">
-            <div class="results-header">
-                <h2 id="resultsTitle">Flight Results</h2>
-                <div class="results-summary" id="resultsSummary"></div>
+            <h3 class="results-title">Compare Prices on These Sites:</h3>
+
+            <div class="sites-grid">
+                <!-- Google Flights -->
+                <div class="site-card">
+                    <div class="site-header">
+                        <img src="https://www.google.com/favicon.ico" alt="Google Flights" class="site-icon">
+                        <h4>Google Flights</h4>
+                    </div>
+                    <p class="site-description">Best for finding deals and flexible dates</p>
+                    <a href="#" id="googleLink" target="_blank" rel="noopener" class="btn-visit">
+                        View on Google Flights →
+                    </a>
+                </div>
+
+                <!-- Kayak -->
+                <div class="site-card">
+                    <div class="site-header">
+                        <img src="https://www.kayak.com/favicon.ico" alt="Kayak" class="site-icon">
+                        <h4>Kayak</h4>
+                    </div>
+                    <p class="site-description">Price alerts and trend tracking</p>
+                    <a href="#" id="kayakLink" target="_blank" rel="noopener" class="btn-visit">
+                        View on Kayak →
+                    </a>
+                </div>
+
+                <!-- Skyscanner -->
+                <div class="site-card">
+                    <div class="site-header">
+                        <img src="https://www.skyscanner.com/favicon.ico" alt="Skyscanner" class="site-icon">
+                        <h4>Skyscanner</h4>
+                    </div>
+                    <p class="site-description">Search everywhere for best prices</p>
+                    <a href="#" id="skyscannerLink" target="_blank" rel="noopener" class="btn-visit">
+                        View on Skyscanner →
+                    </a>
+                </div>
+
+                <!-- Momondo -->
+                <div class="site-card">
+                    <div class="site-header">
+                        <img src="https://www.momondo.com/favicon.ico" alt="Momondo" class="site-icon">
+                        <h4>Momondo</h4>
+                    </div>
+                    <p class="site-description">Comprehensive search results</p>
+                    <a href="#" id="momondoLink" target="_blank" rel="noopener" class="btn-visit">
+                        View on Momondo →
+                    </a>
+                </div>
+
+                <!-- Expedia -->
+                <div class="site-card">
+                    <div class="site-header">
+                        <img src="https://www.expedia.com/favicon.ico" alt="Expedia" class="site-icon">
+                        <h4>Expedia</h4>
+                    </div>
+                    <p class="site-description">Bundle and save on hotels</p>
+                    <a href="#" id="expediaLink" target="_blank" rel="noopener" class="btn-visit">
+                        View on Expedia →
+                    </a>
+                </div>
+
+                <!-- Priceline -->
+                <div class="site-card">
+                    <div class="site-header">
+                        <img src="https://www.priceline.com/favicon.ico" alt="Priceline" class="site-icon">
+                        <h4>Priceline</h4>
+                    </div>
+                    <p class="site-description">Express deals and discounts</p>
+                    <a href="#" id="pricelineLink" target="_blank" rel="noopener" class="btn-visit">
+                        View on Priceline →
+                    </a>
+                </div>
             </div>
 
-            <!-- Loading State -->
-            <div id="loadingState" class="loading" style="display: none;">
-                <div class="loading-spinner"></div>
-                <p>Searching flights from multiple sources...</p>
+            <div class="tip-box">
+                <svg width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                    <path
+                        d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z" />
+                </svg>
+                <p><strong>Pro Tip:</strong> Open each site in a new tab and compare prices side-by-side. Prices can
+                    vary by $50-200!</p>
             </div>
-
-            <!-- Error State -->
-            <div id="errorState" class="error-message" style="display: none;">
-                <h3>Oops! Something went wrong</h3>
-                <p id="errorMessage"></p>
-            </div>
-
-            <!-- Flight Cards -->
-            <div id="flightResults" class="flight-grid"></div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2026 FlightFinder. Compare flights, save money, travel smart.</p>
-            <p class="disclaimer">Prices are indicative and may change. Please verify on booking site.</p>
+            <p>&copy; 2026 FlightFinder. Your flight comparison portal.</p>
+            <p class="disclaimer">We provide links to comparison sites. Booking happens directly with them.</p>
         </div>
     </footer>
 
-    <script src="/js/app.js"></script>
+    <script src="js/portal.js"></script>
 </body>
+
 </html>
