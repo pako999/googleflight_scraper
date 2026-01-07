@@ -85,6 +85,46 @@ body {
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
+.form-group select {
+    padding: 12px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 15px;
+    background: white;
+    cursor: pointer;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.filters-section {
+    margin: 20px 0;
+    padding: 20px;
+    background: #f7fafc;
+    border-radius: 8px;
+}
+
+.filters-toggle {
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    color: #667eea;
+}
+
+.filters-toggle:hover {
+    opacity: 0.8;
+}
+
+.filters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+}
+
 .btn-primary {
     background: linear-gradient(135deg, #667eea, #5a67d8);
     color: white;

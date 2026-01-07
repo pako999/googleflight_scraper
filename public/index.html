@@ -37,6 +37,43 @@
                             <input type="date" id="date" required>
                         </div>
                     </div>
+
+                    <details class="filters-section">
+                        <summary class="filters-toggle">⚙️ Advanced Filters</summary>
+                        <div class="filters-grid">
+                            <div class="form-group">
+                                <label>Max Stops</label>
+                                <select id="maxStops">
+                                    <option value="">Any</option>
+                                    <option value="0">Non-stop only</option>
+                                    <option value="1">1 stop max</option>
+                                    <option value="2">2 stops max</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Max Price ($)</label>
+                                <input type="number" id="maxPrice" placeholder="e.g. 500">
+                            </div>
+                            <div class="form-group">
+                                <label>Sources</label>
+                                <select id="sources">
+                                    <option value="google">Google Flights (Fast)</option>
+                                    <option value="google,kayak">Google + Kayak</option>
+                                    <option value="google,skyscanner">Google + Skyscanner</option>
+                                    <option value="google,kayak,skyscanner">All Sources (Slowest)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Sort By</label>
+                                <select id="sortBy">
+                                    <option value="price">Price (Low to High)</option>
+                                    <option value="duration">Duration (Shortest)</option>
+                                    <option value="stops">Stops (Fewest)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </details>
+
                     <button type="submit" class="btn-primary">🔍 Search Flights</button>
                 </form>
             </div>

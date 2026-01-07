@@ -13,6 +13,12 @@ document.getElementById('searchForm').addEventListener('submit', async (e) => {
     const destination = document.getElementById('destination').value.trim();
     const date = document.getElementById('date').value;
 
+    // Get filter values
+    const maxStops = document.getElementById('maxStops').value;
+    const maxPrice = document.getElementById('maxPrice').value;
+    const sources = document.getElementById('sources').value;
+    const sortBy = document.getElementById('sortBy').value;
+
     // Show results section with loading
     document.getElementById('resultsSection').style.display = 'block';
     document.getElementById('loading').style.display = 'block';
@@ -23,14 +29,18 @@ document.getElementById('searchForm').addEventListener('submit', async (e) => {
     document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
 
     try {
-        // Call API
+        // Build API parameters
         const params = new URLSearchParams({
             origin,
             destination,
             date,
-            sources: 'google',  // Start with just Google for speed
+            sources,
             includeBookingUrls: 'true'
         });
+
+        if (maxStops) params.append('maxStops', maxStops);
+        if (maxPrice) params.append('maxPrice', maxPrice);
+        if (sortBy) params.append('sortBy', sortBy);
 
         const response = await fetch(`/api/compare?${params}`);
         const data = await response.json();
