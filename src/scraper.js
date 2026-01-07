@@ -295,6 +295,14 @@ async function scrapeGoogleFlights(origin, destination, date, returnDate = null,
       }
     }
 
+    // If no flights found, take a debug screenshot
+    let debugScreenshot = null;
+    if (flights.length === 0) {
+      console.log('No flights found. Taking debug screenshot...');
+      const screenshotBuffer = await page.screenshot({ fullPage: true });
+      debugScreenshot = screenshotBuffer.toString('base64');
+    }
+
     await context.close();
 
     return {
@@ -303,6 +311,7 @@ async function scrapeGoogleFlights(origin, destination, date, returnDate = null,
       destination,
       date,
       flights,
+      debugScreenshot, // Return screenshot if available
       timestamp: new Date().toISOString()
     };
 

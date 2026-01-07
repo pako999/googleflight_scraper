@@ -138,7 +138,19 @@ function displayResults(data, origin, destination) {
     const flightCards = document.getElementById('flightCards');
 
     if (flights.length === 0) {
-        flightCards.innerHTML = '<p style="color:white;text-align:center;">No flights found. Try different dates or routes.</p>';
+        let message = '<p style="color:white;text-align:center;">No flights found. Try different dates or routes.</p>';
+
+        // Show debug screenshot if available
+        if (data.debugScreenshot) {
+            message += `
+                <div style="margin-top: 20px; text-align: center;">
+                    <p style="color:#ffd700; margin-bottom: 10px;">⚠️ Debug: What the scraper saw:</p>
+                    <img src="data:image/png;base64,${data.debugScreenshot}" style="max-width: 100%; border-radius: 8px; border: 2px solid #ffd700;">
+                </div>
+            `;
+        }
+
+        flightCards.innerHTML = message;
         return;
     }
 
