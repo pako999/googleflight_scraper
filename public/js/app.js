@@ -5,6 +5,38 @@ today.setDate(today.getDate() + 14);
 dateInput.value = today.toISOString().split('T')[0];
 dateInput.min = new Date().toISOString().split('T')[0];
 
+// Trip Type Toggle
+const returnDateGroup = document.getElementById('returnDateGroup');
+const returnDateInput = document.getElementById('returnDate');
+const tripTypeInputs = document.querySelectorAll('input[name="tripType"]');
+
+tripTypeInputs.forEach(input => {
+    input.addEventListener('change', (e) => {
+        if (e.target.value === 'roundTrip') {
+            returnDateGroup.style.display = 'flex';
+            returnDateInput.required = true;
+            // Set default return date to 7 days after departure
+            if (dateInput.value) {
+                const depDate = new Date(dateInput.value);
+                depDate.setDate(depDate.getDate() + 7);
+                returnDateInput.value = depDate.toISOString().split('T')[0];
+            }
+        } else {
+            returnDateGroup.style.display = 'none';
+            returnDateInput.required = false;
+            returnDateInput.value = '';
+        }
+    });
+});
+
+// Update return date min when departure changes
+dateInput.addEventListener('change', () => {
+    returnDateInput.min = dateInput.value;
+    if (returnDateInput.value && returnDateInput.value < dateInput.value) {
+        returnDateInput.value = dateInput.value;
+    }
+});
+
 // Handle form submission
 document.getElementById('searchForm').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -12,6 +44,14 @@ document.getElementById('searchForm').addEventListener('submit', async (e) => {
     const origin = document.getElementById('origin').value.trim();
     const destination = document.getElementById('destination').value.trim();
     const date = document.getElementById('date').value;
+    const returnDate = document.getElementById('returnDate').value;
+    const tripType = document.querySelector('input[name="tripType"]:checked').value;
+
+    // Validation
+    if (tripType === 'roundTrip' && !returnDate) {
+        alert('Please select a return date for round trip');
+        return;
+    }
 
     // Get passenger info
     const adults = document.getElementById('adults').value;
@@ -42,6 +82,10 @@ document.getElementById('searchForm').addEventListener('submit', async (e) => {
             sources,
             includeBookingUrls: 'true'
         });
+
+        if (tripType === 'roundTrip' && returnDate) {
+            params.append('returnDate', returnDate);
+        }
 
         if (maxStops) params.append('maxStops', maxStops);
         if (maxPrice) params.append('maxPrice', maxPrice);

@@ -9,7 +9,7 @@ const { chromium } = require('playwright-core');
  * @param {boolean} extractBookingUrls - Whether to extract booking provider URLs (slower but includes deep links)
  * @returns {Promise<Object>} Flight results in JSON format
  */
-async function scrapeGoogleFlights(origin, destination, date, extractBookingUrls = false) {
+async function scrapeGoogleFlights(origin, destination, date, returnDate = null, extractBookingUrls = false) {
   const browserlessKey = process.env.BROWSERLESS_KEY;
 
   if (!browserlessKey) {
@@ -85,9 +85,29 @@ async function scrapeGoogleFlights(origin, destination, date, extractBookingUrls
     const [year, month, day] = date.split('-');
     const dateStr = `${parseInt(month)}/${parseInt(day)}/${year}`;
 
-    // Type the date directly
+    // Type the departure date
     await dateInput.fill(dateStr);
     await page.waitForTimeout(500);
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(500);
+
+    // Handle return date if provided
+    if (returnDate) {
+      console.log(`Setting return date: ${returnDate}`);
+      const [rYear, rMonth, rDay] = returnDate.split('-');
+      const returnDateStr = `${parseInt(rMonth)}/${parseInt(rDay)}/${rYear}`;
+
+      // Tab to return date field (usually next focusable element)
+      await page.keyboard.press('Tab');
+      await page.waitForTimeout(500);
+      await page.keyboard.type(returnDateStr);
+      await page.waitForTimeout(500);
+      await page.keyboard.press('Enter');
+    } else {
+      // Ensure One-way is selected if no return date
+      // Note: Google Flights defaults to Round Trip sometimes, but typing only one date usually sets it
+      // We might need to explicitly select 'One-way' dropdown if this fails
+    }
 
     // Click Done button in date picker if visible
     try {
@@ -99,6 +119,8 @@ async function scrapeGoogleFlights(origin, destination, date, extractBookingUrls
       console.log('Done button not found, continuing...');
     }
 
+    // Explicitly click somewhere else to close date picker if it stays open
+    await page.mouse.click(0, 0);
     await page.waitForTimeout(1000);
 
     // Click Search/Explore button
@@ -300,7 +322,9 @@ if (require.main === module) {
   const destination = process.argv[3] || 'London';
   const date = process.argv[4] || '2026-02-15';
 
-  scrapeGoogleFlights(origin, destination, date)
+  const returnDate = process.argv[5] || null;
+
+  scrapeGoogleFlights(origin, destination, date, returnDate)
     .then(results => {
       console.log('\n=== Flight Results ===');
       console.log(JSON.stringify(results, null, 2));

@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
 // Flight search endpoint with filtering
 app.get('/api/search', async (req, res) => {
     try {
-        const { origin, destination, date, maxStops, maxPrice, minPrice, airlines, excludeAirlines, maxDuration, sortBy, order, includeBookingUrls } = req.query;
+        const { origin, destination, date, returnDate, maxStops, maxPrice, minPrice, airlines, excludeAirlines, maxDuration, sortBy, order, includeBookingUrls } = req.query;
 
         // Validate required parameters
         if (!origin || !destination || !date) {
@@ -72,7 +72,7 @@ app.get('/api/search', async (req, res) => {
 
         // Perform scraping
         const extractBookingUrls = includeBookingUrls === 'true';
-        const results = await scrapeGoogleFlights(origin, destination, date, extractBookingUrls);
+        const results = await scrapeGoogleFlights(origin, destination, date, returnDate, extractBookingUrls);
 
         // Apply filters if provided
         const filters = {};
