@@ -13,6 +13,11 @@ document.getElementById('searchForm').addEventListener('submit', async (e) => {
     const destination = document.getElementById('destination').value.trim();
     const date = document.getElementById('date').value;
 
+    // Get passenger info
+    const adults = document.getElementById('adults').value;
+    const children = document.getElementById('children').value;
+    const cabinClass = document.getElementById('cabinClass').value;
+
     // Get filter values
     const maxStops = document.getElementById('maxStops').value;
     const maxPrice = document.getElementById('maxPrice').value;
@@ -64,12 +69,21 @@ function displayResults(data, origin, destination) {
     document.getElementById('loading').style.display = 'none';
     document.getElementById('results').style.display = 'block';
 
-    // Title
+    // Get passenger info for display
+    const adults = document.getElementById('adults').value;
+    const children = document.getElementById('children').value;
+    const cabinClass = document.getElementById('cabinClass').value;
+    const cabinClassText = cabinClass.charAt(0).toUpperCase() + cabinClass.slice(1);
+
+    // Title with passenger info
+    const totalPax = parseInt(adults) + parseInt(children);
+    const paxText = `${adults} Adult${adults > 1 ? 's' : ''}${children > 0 ? `, ${children} Child${children > 1 ? 'ren' : ''}` : ''}`;
     document.getElementById('resultsTitle').textContent = `${origin} → ${destination}`;
 
     // Summary
     const summary = data.summary || {};
     document.getElementById('resultsSummary').innerHTML = `
+        <p><strong>${paxText}</strong> • ${cabinClassText}</p>
         <p><strong>${summary.totalFlights || 0} flights found</strong> • 
         Checked ${summary.sourcesSuccessful || 1} source(s)</p>
         ${summary.cheapestPrice ? `<p>Best price: <strong>$${summary.cheapestPrice}</strong></p>` : ''}

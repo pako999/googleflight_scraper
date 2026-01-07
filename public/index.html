@@ -42,7 +42,37 @@
                         <summary class="filters-toggle">⚙️ Advanced Filters</summary>
                         <div class="filters-grid">
                             <div class="form-group">
-                                <label>Max Stops</label>
+                                <label>👥 Adults</label>
+                                <select id="adults">
+                                    <option value="1" selected>1 Adult</option>
+                                    <option value="2">2 Adults</option>
+                                    <option value="3">3 Adults</option>
+                                    <option value="4">4 Adults</option>
+                                    <option value="5">5 Adults</option>
+                                    <option value="6">6 Adults</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>👶 Children</label>
+                                <select id="children">
+                                    <option value="0" selected>0 Children</option>
+                                    <option value="1">1 Child</option>
+                                    <option value="2">2 Children</option>
+                                    <option value="3">3 Children</option>
+                                    <option value="4">4 Children</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>✈️ Cabin Class</label>
+                                <select id="cabinClass">
+                                    <option value="economy" selected>Economy</option>
+                                    <option value="premium">Premium Economy</option>
+                                    <option value="business">Business</option>
+                                    <option value="first">First Class</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>🛑 Max Stops</label>
                                 <select id="maxStops">
                                     <option value="">Any</option>
                                     <option value="0">Non-stop only</option>
@@ -51,11 +81,11 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Max Price ($)</label>
+                                <label>💰 Max Price ($)</label>
                                 <input type="number" id="maxPrice" placeholder="e.g. 500">
                             </div>
                             <div class="form-group">
-                                <label>Sources</label>
+                                <label>🔍 Sources</label>
                                 <select id="sources">
                                     <option value="google">Google Flights (Fast)</option>
                                     <option value="google,kayak">Google + Kayak</option>
@@ -64,7 +94,7 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Sort By</label>
+                                <label>📊 Sort By</label>
                                 <select id="sortBy">
                                     <option value="price">Price (Low to High)</option>
                                     <option value="duration">Duration (Shortest)</option>
