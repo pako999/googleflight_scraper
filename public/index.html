@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Search - Find & Compare the Best Flight Deals</title>
+    <meta name="description" content="Search and compare flight prices from Google Flights, Kayak, and Skyscanner. Find the cheapest flights with direct booking links.">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <path d="M16 2L28 16L16 30L4 16L16 2Z" fill="url(#gradient)" stroke="white" stroke-width="2"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#f687b3;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>FlightFinder</h1>
+            </div>
+            <p class="tagline">Compare flights from multiple sources, book direct</p>
+        </div>
+    </header>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-card">
+                <h2>Find Your Perfect Flight</h2>
+                <form id="searchForm" class="search-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="origin">From</label>
+                            <input type="text" id="origin" name="origin" placeholder="e.g. NYC, New York, JFK" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="destination">To</label>
+                            <input type="text" id="destination" name="destination" placeholder="e.g. LON, London, LHR" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Departure Date</label>
+                            <input type="date" id="date" name="date" required>
+                        </div>
+                    </div>
+
+                    <div class="advanced-filters">
+                        <button type="button" class="filter-toggle" id="filterToggle">
+                            <span>Advanced Filters</span>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+                            </svg>
+                        </button>
+                        
+                        <div id="filtersPanel" class="filters-panel" style="display: none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="maxStops">Max Stops</label>
+                                    <select id="maxStops" name="maxStops">
+                                        <option value="">Any</option>
+                                        <option value="0">Non-stop only</option>
+                                        <option value="1">1 stop max</option>
+                                        <option value="2">2 stops max</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="maxPrice">Max Price ($)</label>
+                                    <input type="number" id="maxPrice" name="maxPrice" placeholder="e.g. 500">
+                                </div>
+                                <div class="form-group">
+                                    <label for="sources">Search Sources</label>
+                                    <select id="sources" name="sources">
+                                        <option value="google">Google Flights Only</option>
+                                        <option value="google,kayak">Google + Kayak</option>
+                                        <option value="google,skyscanner">Google + Skyscanner</option>
+                                        <option value="google,kayak,skyscanner" selected>All Sources</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="searchBtn">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                        </svg>
+                        Search Flights
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section id="resultsSection" class="results-section" style="display: none;">
+        <div class="container">
+            <div class="results-header">
+                <h2 id="resultsTitle">Flight Results</h2>
+                <div class="results-summary" id="resultsSummary"></div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="loading" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p>Searching flights from multiple sources...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="error-message" style="display: none;">
+                <h3>Oops! Something went wrong</h3>
+                <p id="errorMessage"></p>
+            </div>
+
+            <!-- Flight Cards -->
+            <div id="flightResults" class="flight-grid"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 FlightFinder. Compare flights, save money, travel smart.</p>
+            <p class="disclaimer">Prices are indicative and may change. Please verify on booking site.</p>
+        </div>
+    </footer>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
