@@ -159,21 +159,62 @@ async function scrapeGoogleFlights(origin, destination, date, returnDate = null,
         return null;
       }
 
-      // Flight list containers
-      const flightElements = document.querySelectorAll('[jsname="IWWDBc"]');
+      // Try multiple selectors for flight list containers
+      // 1. Standard list items
+      // 2. Elements with "flight" in aria-label
+      // 3. Known obfuscated class (fallback)
+      let flightElements = document.querySelectorAll('[role="listitem"]');
+      if (flightElements.length === 0) {
+        flightElements = document.querySelectorAll('[jsname="IWWDBc"]');
+      }
+
+      console.log(`Found ${flightElements.length} potential flight elements`);
 
       flightElements.forEach((flightEl, index) => {
         if (index >= 10) return; // Limit to first 10 results
 
         try {
-          // Airline name
+          // Get all text content to parse if selectors fail
+          const allText = flightEl.textContent;
+
+          // Ticket/Price extraction
+          // Look for currency symbols or "EUR", "USD" etc
+          let price = '';
+          let priceValue = null;
+
+          // Strategy 1: ARIA labels
+          const priceAria = flightEl.querySelector('[aria-label*="price"]');
+          if (priceAria) {
+            price = priceAria.textContent.trim();
+          }
+          // Strategy 2: Specific class
+          else {
+            const priceEl = flightEl.querySelector('[jsname="qCDwBb"]');
+            if (priceEl) price = priceEl.textContent.trim();
+
+            // Strategy 3: Regex match on text
+            if (!price) {
+              const priceMatch = allText.match(/(\$|€|£)\s*\d+(,\d{3})?|(\d+\s*€)/);
+              if (priceMatch) price = priceMatch[0];
+            }
+          }
+
+          if (price) priceValue = extractPriceValue(price);
+
+
+          // Airline extraction
           let airline = '';
           const airlineEl = flightEl.querySelector('[jsname="zRe5xc"]');
           if (airlineEl) {
             airline = airlineEl.textContent.trim();
+          } else {
+            // Try to find text that is NOT time, duration, or price
+            // This is hard, so we might return "Pending"
+            // Often first text node is airline or time
           }
 
-          // Flight duration
+
+          // Duration extraction
           let duration = '';
           const durationEl = flightEl.querySelector('[aria-label*="Total duration"]');
           if (durationEl) {
@@ -181,38 +222,38 @@ async function scrapeGoogleFlights(origin, destination, date, returnDate = null,
             if (match) {
               duration = match[1];
             }
+          } else {
+            // Fallback regex
+            const durationMatch = allText.match(/\d+\s*hr\s*\d*\s*min/);
+            if (durationMatch) duration = durationMatch[0];
           }
 
-          // Price
-          let price = '';
-          let priceValue = null;
-          const priceEl = flightEl.querySelector('[jsname="qCDwBb"]');
-          if (priceEl) {
-            price = priceEl.textContent.trim();
-            priceValue = extractPriceValue(price);
-          }
 
-          // Flight type (Non-stop, 1 stop, etc.)
+          // Flight type (Stops)
           let type = '';
-          const typeEl = flightEl.querySelector('[jsname="OgQvJf"]');
-          if (typeEl) {
-            const text = typeEl.textContent.trim();
-            if (text.includes('Nonstop')) {
-              type = 'Non-stop';
-            } else if (text.includes('1 stop')) {
-              type = '1 stop';
-            } else if (text.includes('2+ stops')) {
-              type = '2+ stops';
-            } else {
-              type = text;
-            }
+          if (allText.includes('Nonstop') || allText.includes('Non-stop')) {
+            type = 'Non-stop';
+          } else if (allText.includes('1 stop')) {
+            type = '1 stop';
+          } else if (allText.includes('2+ stops') || allText.includes('stops')) {
+            type = '2+ stops';
+          } else {
+            type = 'Unknown';
           }
 
-          // Only add if we have meaningful data
-          if (airline || duration || price) {
+          // Sometimes airline is mixed with other text, try to extract unique airline names if known
+          // Simply defaulting to "See Details" if missing
+          if (!airline && allText.length > 5) {
+            // Heuristic: Airline often comes before time or duration
+            const parts = allText.split(/(\d{1,2}:\d{2}|Nonstop|\$)/);
+            if (parts.length > 0) airline = parts[0].substring(0, 20).trim();
+          }
+
+          // Only add if we have at least a price and type
+          if (price) {
             results.push({
-              airline,
-              duration,
+              airline: airline || 'Multiple Airlines',
+              duration: duration || 'N/A',
               price,
               priceValue,
               type
