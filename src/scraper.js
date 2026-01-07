@@ -108,8 +108,18 @@ async function scrapeGoogleFlights(origin, destination, date, extractBookingUrls
 
     // Wait for flight results to load
     console.log('Waiting for flight results...');
-    await page.waitForSelector('[jsname="IWWDBc"]', { timeout: 30000 });
-    await page.waitForTimeout(3000); // Additional wait for all results to render
+    try {
+      // Wait for the results container with longer timeout
+      await page.waitForSelector('[jsname="IWWDBc"]', { timeout: 60000 });
+
+      // Additional wait for results to fully render
+      await page.waitForTimeout(5000);
+
+      console.log('Flight results loaded successfully');
+    } catch (error) {
+      console.log('Timeout waiting for results. Checking if any flights are visible...');
+      // Continue anyway - might have some results
+    }
 
     console.log('Scraping flight data...');
 
